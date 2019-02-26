@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UsersService } from './shared/users.service';
+import { CounterService } from './shared/counter.service';
 
 @Component({
   selector: 'app-root',
@@ -6,16 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  activeUsers = ['Max', 'Anna'];
-  inactiveUsers = ['Chris', 'Manu'];
+  actionsMsg: string;
 
-  onSetToInactive(id: number) {
-    this.inactiveUsers.push(this.activeUsers[id]);
-    this.activeUsers.splice(id, 1);
-  }
-
-  onSetToActive(id: number) {
-    this.activeUsers.push(this.inactiveUsers[id]);
-    this.inactiveUsers.splice(id, 1);
+  constructor(
+    private usersSerivce: UsersService,
+    private counterService: CounterService
+  ) {
+    this.counterService.actionsAdded.subscribe(actionCount => {
+      this.actionsMsg = 'Number of actions added: ' + actionCount;
+      return undefined;
+    });
   }
 }
